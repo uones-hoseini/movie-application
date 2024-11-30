@@ -11,12 +11,11 @@ function Header() {
   const navigate = useNavigate()
  
 
-  useEffect(() => {
-    if (searchInput) {
-    navigate(`/search?${searchInput}`)
-      
+  useEffect(()=>{
+    if(searchInput){
+        navigate(`/search?q=${searchInput}`)
     }
-  }, [searchInput])
+},[searchInput])
 
 function handleSubmit(e) {
   e.preventDefault()
