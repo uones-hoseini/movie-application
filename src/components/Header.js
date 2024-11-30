@@ -12,7 +12,10 @@ function Header() {
  
 
   useEffect(() => {
+    if (searchInput) {
     navigate(`/search?${searchInput}`)
+      
+    }
   }, [searchInput])
 
 function handleSubmit(e) {
