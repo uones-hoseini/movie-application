@@ -5,7 +5,7 @@ import { FaAngleRight, FaAngleLeft } from "react-icons/fa6"
 function BannerHome() {
   const bannerData = useSelector((state) => state.movieData.bannerData)
   const imageURL = useSelector((state) => state.movieData.imageURL)
-console.log(bannerData)
+  console.log(bannerData)
   const [currentImage, setCurrentImage] = useState(0)
 
   const handleNext = () => {
@@ -19,16 +19,16 @@ console.log(bannerData)
     }
   }
 
-  useEffect(()=>{
-const interval=setInterval(()=>{
-  if (currentImage < bannerData.length - 1) {
-    handleNext()
-  }else{
-    setCurrentImage(0)
-  }
-},3000)
-return ()=> clearInterval(interval)
-  },[bannerData,imageURL])
+  useEffect(() => {
+    const interval = setInterval(() => {
+      if (currentImage < bannerData.length - 1) {
+        handleNext()
+      } else {
+        setCurrentImage(0)
+      }
+    }, 3000)
+    return () => clearInterval(interval)
+  }, [bannerData, imageURL])
   return (
     <section className="w-full h-full">
       <div className="flex min-h-full max-h-[95vh] overflow-hidden">

@@ -5,6 +5,7 @@ import ExplorePage from "../pages/ExplorePage"
 import DetailsePage from "../pages/DetailsePage"
 import SearchPage from "../pages/SearchPage"
 
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
       {
         path: "search",
         element: <SearchPage/>,
-      },
+      }, 
     ],
   },
 ])
