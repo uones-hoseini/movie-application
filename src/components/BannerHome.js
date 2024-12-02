@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
-import { data } from "react-router-dom"
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6"
 
 function BannerHome() {
