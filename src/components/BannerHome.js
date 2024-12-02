@@ -6,7 +6,7 @@ import { FaAngleRight, FaAngleLeft } from "react-icons/fa6"
 function BannerHome() {
   const bannerData = useSelector((state) => state.movieData.bannerData)
   const imageURL = useSelector((state) => state.movieData.imageURL)
-
+console.log(bannerData)
   const [currentImage, setCurrentImage] = useState(0)
 
   const handleNext = () => {
