@@ -5,26 +5,24 @@ import userIcone from "../assets/user.png"
 import { IoSearchSharp } from "react-icons/io5"
 import { navigation } from "../contants/navigation"
 
-
 function Header() {
   const [searchInput, setSearchInput] = useState("")
   const navigate = useNavigate()
- 
 
-  useEffect(()=>{
-    if(searchInput){
-        navigate(`/search?q=${searchInput}`)
+  useEffect(() => {
+    if (searchInput) {
+      navigate(`/search?q=${searchInput}`)
     }
-},[searchInput])
+  }, [searchInput])
 
-function handleSubmit(e) {
-  e.preventDefault()
-}
+  function handleSubmit(e) {
+    e.preventDefault()
+  }
 
   return (
-    <header className="fixed top-0 w-full h-16 bg-neutral-600 bg-opacity-75 z-40">
+    <header className="fixed top-0 w-full h-16 bg-black bg-opacity-50 z-40">
       <div className="container mx-auto px-3 flex items-center h-full">
-        <Link to={'/'}>
+        <Link to={"/"}>
           <img src={logo} alt="logo" width={120} />
         </Link>
         <nav className=" hidden lg:flex items-center gap-1 ml-5">

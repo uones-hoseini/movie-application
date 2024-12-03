@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import axios from "axios"
 
 function useFetch(endPoint) {
@@ -17,7 +17,7 @@ function useFetch(endPoint) {
   }
   useEffect(() => {
     fetchData()
-  }, [endPoint])
+  },[endPoint])
   return { data, loading }
 }
 
