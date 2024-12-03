@@ -4,25 +4,20 @@ import { useSelector } from "react-redux"
 
 import HorizontalScrollCard from "../components/HorizontalScrollCard"
 import axios from "axios"
+import useFetch from "../hooks/useFetch"
 
 function Home() {
   const trandingData = useSelector((state) => state.movieData.bannerData)
-  const [nowPlayingData, setNowPlayingData] = useState([])
 
+  const { data: nowPlayingData } = useFetch("/movie/now_playing")
+  const { data: topRatingData } = useFetch("/movie/top_rated")
 
-  const fetchNowPlayingData=async()=>{
-    const response=await axios.get("/movie/now_playing")
-    setNowPlayingData(response.data.results)
-
-  }
-  useEffect(()=>{
-fetchNowPlayingData()
-  },[])
   return (
     <div>
       <BannerHome />
       <HorizontalScrollCard data={trandingData} heading="Trending " trending={true} />
       <HorizontalScrollCard data={nowPlayingData} heading="Now Playing " />
+      <HorizontalScrollCard data={topRatingData} heading="Top Rating Movies " />
     </div>
   )
 }
