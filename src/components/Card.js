@@ -2,9 +2,11 @@ import React from "react"
 import { useSelector } from "react-redux"
 import moment from "moment"
 import { Link } from "react-router-dom"
+import axios from "axios"
 
 function Card({ data, trending, index }) {
   const imageURL = useSelector((state) => state.movieData.imageURL)
+
 
   return (
     <Link to={"/"+data.media_type+"/"+data.id} className="w-full min-w-[230px] max-w-[230px] h-80 overflow-hidden rounded relative">

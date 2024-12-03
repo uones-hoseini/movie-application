@@ -2,7 +2,7 @@ import React, { useRef } from "react"
 import Card from "./Card"
 import { FaAngleRight, FaAngleLeft } from "react-icons/fa6"
 
-function HorizontalScrollCard({ data = [], heading }) {
+function HorizontalScrollCard({ data = [], heading,trending }) {
   const contaierRef = useRef()
   const handleNext=()=>{
     contaierRef.current.scrollLeft +=300
@@ -16,7 +16,7 @@ function HorizontalScrollCard({ data = [], heading }) {
       <div className="relative">
         <div ref={contaierRef} className="grid grid-cols-[repeat(auto-fit,230px)] grid-flow-col gap-6 overflow-hidden overflow-x-scroll relative z-10 scroll-smooth transition-all scrollbar-none">
           {data.map((data, index) => {
-            return <Card key={data.id + "heading" + index} data={data} index={index + 1} trending={true} />
+            return <Card key={data.id + "heading" + index} data={data} index={index + 1} trending={trending} />
           })}
         </div>
         <div className=" absolute top-0 flex justify-between w-full h-full items-center">
