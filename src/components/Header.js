@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from "react"
 import logo from "../assets/logo.png"
-import { Link, NavLink, useNavigate } from "react-router-dom"
+import { Link, NavLink, useLocation, useNavigate } from "react-router-dom"
 import userIcone from "../assets/user.png"
 import { IoSearchSharp } from "react-icons/io5"
 import { navigation } from "../contants/navigation"
 
 function Header() {
-  const [searchInput, setSearchInput] = useState("")
+  const location = useLocation()
+const removeSpace=location?.search?.slice(3)?.split("%20")?.join(" ")
+  const [searchInput, setSearchInput] = useState(removeSpace)
   const navigate = useNavigate()
-
+console.log("removeSpace",removeSpace)
   useEffect(() => {
     if (searchInput) {
       navigate(`/search?q=${searchInput}`)
