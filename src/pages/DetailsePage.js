@@ -5,6 +5,7 @@ import { useSelector } from "react-redux"
 import Divider from "../components/Divider"
 import HorizontalScrollCard from "../components/HorizontalScrollCard"
 import useFetch from "../hooks/useFetch"
+import VideoPlay from "../components/VideoPlay"
 function DetailsePage() {
   const params = useParams()
 
@@ -13,12 +14,12 @@ function DetailsePage() {
   const { data } = useFetchDetails(`/${params?.explore}/${params?.id}`)
   const { data: castData } = useFetchDetails(`/${params?.explore}/${params?.id}/credits`)
   const { data: similarData } = useFetch(`/${params?.explore}/${params?.id}/similar`)
-  const { data: recommendationData} = useFetch(`/${params?.explore}/${params?.id}/recommendations`)
-  const[playVideo,setPlayVideo]=useState(false)
-  const[playVideoId,setPlayVideoId]=useState("")
+  const { data: recommendationData } = useFetch(`/${params?.explore}/${params?.id}/recommendations`)
+  const [playVideo, setPlayVideo] = useState(false)
+  const [playVideoId, setPlayVideoId] = useState("")
 
   console.log("data", data)
-  console.log("params", params)
+  console.log("params", params.explore)
 
   console.log("case data", castData)
   const writer = castData?.crew
@@ -27,6 +28,10 @@ function DetailsePage() {
     ?.join(", ")
   // const duration=(Number(data.runtime)/60).toFixed(1).split(".")
 
+  const handlePlayVideo = () => {
+    setPlayVideoId(data)
+    setPlayVideo(true)
+  }
   return (
     <div>
       <div className="w-full h-[280px] relative hidden lg:block">
@@ -39,8 +44,9 @@ function DetailsePage() {
       <div className="container mx-auto px-3 py-16 lg:py-0 flex flex-col lg:flex-row gap-5 lg:gap-10">
         <div className="relative mx-auto lg:-mt-28 lg:mx-0 w-fit min-w-60">
           <img src={imageURL + data?.poster_path} alt="" className="h-80 w-60 object-cover rounded" />
-<button className="mt-3 w-full py-2 px-4 text-center bg-white text-black font-bold rounded text-lg hover:bg-gradient-to-l from-red-500 to-orange-500 hover:scale-105 transition-all ">Play Now</button>
-
+          <button onClick={() => handlePlayVideo(data)} className="mt-3 w-full py-2 px-4 text-center bg-white text-black font-bold rounded text-lg hover:bg-gradient-to-l from-red-500 to-orange-500 hover:scale-105 transition-all ">
+            Play Now
+          </button>
         </div>
         <div className=" ">
           <h2 className="text-2xl lg:text-4xl font-bold text-white">{data?.title || data?.name}</h2>
@@ -103,6 +109,7 @@ function DetailsePage() {
       <div>
         <HorizontalScrollCard data={similarData} heading={"Similar " + params?.explore} media_type={params?.explore} />
         <HorizontalScrollCard data={recommendationData} heading={"Recommendations " + params?.explore} media_type={params?.explore} />
+        {playVideo && <VideoPlay data={playVideoId} close={() => setPlayVideo(false)} media_type={params?.explore} />}
       </div>
     </div>
   )
