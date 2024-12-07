@@ -3,28 +3,33 @@ import { useParams } from "react-router-dom"
 import useFetchDetails from "../hooks/useFetchDetails"
 import { useSelector } from "react-redux"
 import Divider from "../components/Divider"
-
+import HorizontalScrollCard from "../components/HorizontalScrollCard"
+import useFetch from "../hooks/useFetch"
 function DetailsePage() {
-  const imageURL = useSelector((state) => state.movieData.imageURL)
-
   const params = useParams()
 
-  console.log("params", params)
-  const { data } = useFetchDetails(`${params?.explore}/${params?.id}`)
-  const { data: castData } = useFetchDetails(`${params?.explore}/${params?.id}/credits`)
-  console.log("data", data)
-  console.log("case data", castData)
+  const imageURL = useSelector((state) => state.movieData.imageURL)
 
+  const { data } = useFetchDetails(`/${params?.explore}/${params?.id}`)
+  const { data: castData } = useFetchDetails(`/${params?.explore}/${params?.id}/credits`)
+  const { data: similarData } = useFetch(`/${params?.explore}/${params?.id}/similar`)
+  const { data: recommendationData} = useFetch(`/${params?.explore}/${params?.id}/recommendations`)
+
+  console.log("data", data)
+  console.log("params", params)
+
+  console.log("case data", castData)
+  const writer = castData?.crew
+    ?.filter((el) => el?.job === "Writer")
+    ?.map((el) => el?.name)
+    ?.join(", ")
   // const duration=(Number(data.runtime)/60).toFixed(1).split(".")
 
   return (
     <div>
       <div className="w-full h-[280px] relative hidden lg:block">
         <div className="w-full h-full">
-          <img 
-          src={imageURL + data?.backdrop_path } alt="" 
-          className="h-full w-full object-cover"
-           />
+          <img src={imageURL + data?.backdrop_path} alt="" className="h-full w-full object-cover" />
         </div>
         <div className="absolute w-full h-full top-0 bg-gradient-to-t from-neutral-900/90 to-transparent"></div>
       </div>
@@ -35,13 +40,11 @@ function DetailsePage() {
         </div>
 
         <div className=" ">
-
-          <h2 className="text-2xl font-bold text-white">{data?.title || data?.name}</h2>
+          <h2 className="text-2xl lg:text-4xl font-bold text-white">{data?.title || data?.name}</h2>
           <p className="text-neutral-400">{data?.tagline}</p>
-        <Divider/>
+          <Divider />
 
           <div className="flex items-center my-3 gap-3">
-
             <p>Rating : {Number(data?.vote_average).toFixed(1)}</p>
             <span>|</span>
             <p className="">View : {data?.vote_count}</p>
@@ -50,36 +53,53 @@ function DetailsePage() {
             <p className="">{/* Duration : {duration[0] }h {duration[1]}m */}</p>
             <p className="">Popularity : {Number(data?.popularity).toFixed(0)}</p>
           </div>
-        <Divider/>
+          <Divider />
 
           <div className="">
             <h3 className="text-xl font-bold text-white mb-1">Over Veiw</h3>
             <p>{data?.overview}</p>
-            <Divider/>
+            <Divider />
 
             <div className="flex items-center my-3 text-center gap-4">
               <p className="">Status : {data?.status}</p>
               <span>|</span>
-              <p className="">
-                Release Date : {data?.first_air_date || data?.release_date}
-              </p>
+              <p className="">Release Date : {data?.first_air_date || data?.release_date}</p>
               <span>|</span>
               Production Countries : {data?.production_countries[0].name}
-        
-
             </div>
-        <Divider/>
-
+            <Divider />
           </div>
           <div className="">
             <p className="">
+              <span className="text-white">Director : {castData?.cast[0].name}</span>
+            </p>
+            <Divider />
 
-              <span className="text-white">
-              Director : {castData?.cast[0].name}
-              </span>
+            <p>
+              <span className="text-white">Writer : {castData?.crew[3]?.name}</span>
             </p>
           </div>
-        </div> 
+          <Divider />
+
+          <div className="grid grid-cols-[repeat(auto-fit,96px)] gap-5">
+            {castData?.cast
+              ?.filter((el) => el?.profile_path)
+              .map((startCast, index) => {
+                return (
+                  <div>
+                    <div className="">
+                      <img src={imageURL + startCast?.profile_path} alt="" className="w-24 h-2/4 object-cover rounded-full" />
+                      <p className="font-bold text-center text-sm text-neutral-400 my-2 py-2">{startCast.name}</p>
+                    </div>
+                  </div>
+                )
+              })}
+          </div>
+        </div>
+      </div>
+      <div>
+        <HorizontalScrollCard data={similarData} heading={"Similar " + params?.explore} media_type={params?.explore} />
+        <HorizontalScrollCard data={recommendationData} heading={"Recommendations " + params?.explore} media_type={params?.explore} />
       </div>
     </div>
   )

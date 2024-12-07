@@ -28,7 +28,7 @@ function BannerHome() {
       }
     }, 3000)
     return () => clearInterval(interval)
-  }, [bannerData, imageURL])
+  }, [bannerData, imageURL,currentImage])
   return (
     <section className="w-full h-full">
       <div className="flex min-h-full max-h-[95vh] overflow-hidden">
